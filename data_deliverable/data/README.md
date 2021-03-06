@@ -4,9 +4,11 @@ The data for both BBA and Dear Blueno both have a similar format, as described b
 
 ## Links to Full Data
 
-[Dear Blueno Posts, processed (csv format)](./processesed/dear-blueno.csv)
+All data is stored in the repository.
 
-[BBA Posts, processed (csv format)](./processesed/bba.csv)
+Dear Blueno Posts, processed (csv format): `data_deliverable/data/processed/dear-blueno.csv`
+
+BBA Posts, processed (csv format): `data_deliverable/data/processed/bba.csv`
 
 The raw data is in `data_deliverable/data/raw`.
 
@@ -57,6 +59,5 @@ $$('.uiBoxWhite > ._2let > div')
   })
   .filter(Boolean)
 ```
-
 
 
