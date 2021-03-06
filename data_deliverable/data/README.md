@@ -2,6 +2,15 @@
 
 The data for both BBA and Dear Blueno both have a similar format, as described below.
 
+## Links to Full Data
+
+[Dear Blueno Posts, processed (csv format)](./processesed/dear-blueno.csv)
+
+[BBA Posts, processed (csv format)](./processesed/bba.csv)
+
+The raw data is in `data_deliverable/data/raw`.
+
+
 ## Processed Data
 The processed data is in CSV format. Each row has the following columns, which are required unless otherwise specified:
 
@@ -48,4 +57,6 @@ $$('.uiBoxWhite > ._2let > div')
   })
   .filter(Boolean)
 ```
+
+
 
