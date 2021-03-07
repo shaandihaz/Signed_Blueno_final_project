@@ -60,4 +60,11 @@ $$('.uiBoxWhite > ._2let > div')
   .filter(Boolean)
 ```
 
+## Scraping/Cleaning
 
+The raw data was scraped from the provided HTML pages using the above script. Further cleaning and processing of the data into a CSV format was carried out using two [Observable](https://observablehq.com) notebooks ([what does this mean?](https://observablehq.com/@observablehq/a-taste-of-observable?collection=@observablehq/introduction)).
+
+The notebooks have been downloaded into the `notebooks` directory in case Observable's servers go down but it would be a much better experience to view them online:
+
+- The [BBA Notebook](https://observablehq.com/d/56f0e983c79d6743) can be viewed through Observable's website or by running a local server on the extracted contents of `notebooks/bba.tar.zip`. Upload `data/raw/bba-1.json` and `data/raw/bba-2.json` to the two file inputs to see it working.
+- The [Dear Blueno notebook](https://observablehq.com/d/be11c5ffccca1383) can be viewed through Observable's website or by running a local server on the extracted contents of `notebooks/dear-blueno.tar.zip`. This notebook should work without having to upload `data/raw/dear-blueno-1.json` and `data/raw/dear-blueno-2.json`, although it is still possible to manually upload those files if the default links stop working.
