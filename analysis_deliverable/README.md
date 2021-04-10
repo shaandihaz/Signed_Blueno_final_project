@@ -10,10 +10,7 @@ This is the analysis deliverable's master directory! Please use the following sh
 
 _You can edit this README to refer to your own visualizations once you upload them_
 
-<iframe width="100%" height="684" frameborder="0"
-  src="https://observablehq.com/embed/6e7eeb6ed90f62d4?cells=chart"></iframe>
-
-[Visualization](https://observablehq.com/embed/6e7eeb6ed90f62d4?cells=chart)
+[Visualization](https://observablehq.com/d/6e7eeb6ed90f62d4)
 
 ![Graph PNG](visualizations/chart.png)
 
