@@ -18,7 +18,7 @@ BBA Histogram:
 ![BBA Histogram](../visualizations/bba_stressful_hist.png)
 
 DB Histogram:
-![DB Histogram] (../visualizations/db_stressful_hist.png)
+![DB Histogram](../visualizations/db_stressful_hist.png)
 
 Since the distributions were not normal, we decided to use the **Mann-Whitney U test**. This test is non-parametric, so it does not require the populations to be normal. Our data is not paired and has fairly small sizes, so we thought the Mann-Whitney test would work well. We used scipy's stats library, which has a Mann-Whitney U test that outputs a p-value after comparing two datasets. We used a two-sided hypothesis for the function. Although the Mann-Whitney test usually compares U to u(n1, n2, a), the library converts this to a p-value. Thus, with p < 0.05, we can reject the null hypothesis. With p > 0.05, we would accept the alternative hypothesis.
 
@@ -37,10 +37,10 @@ We thought of using scatter plots, but we did not think the heights were as dist
 
 
 DB Bar Graph: 
-![DB Bar Graph] (../visualizations/db-chart.png)
+![DB Bar Graph](../visualizations/db-chart.png)
 
 BBA Bar Graph:
-![BBA Bar Graph] (../visualizations/bba-chart.png)
+![BBA Bar Graph](../visualizations/bba-chart.png)
 
 
 ## Conclusion ##
