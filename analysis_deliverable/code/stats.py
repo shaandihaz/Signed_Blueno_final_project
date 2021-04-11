@@ -7,7 +7,7 @@ from datetime import date
 from dateutil.parser import parse
 from scipy import stats
 
-have_data = True
+have_data = False
 
 stress_periods = [(date(2018, 9, 9), date(2018, 9, 20)), (date(2018, 12, 9), date(2018, 12, 21)),\
                     (date(2019, 1, 20), date(2019, 2, 5)), (date(2019, 4, 26), date(2019, 5, 12)),\
@@ -15,6 +15,7 @@ stress_periods = [(date(2018, 9, 9), date(2018, 9, 20)), (date(2018, 12, 9), dat
                     (date(2020, 1, 19), date(2020, 2, 4)), (date(2020, 4, 19), date(2020, 5, 15)),\
                     (date(2020, 9, 6), date(2020, 9, 22)), (date(2020, 11, 29), date(2020, 12, 11)),\
                     (date(2021, 1, 17), date(2021, 2, 2))]
+
 
 def main():
     bba = pd.read_csv(open("bba_all_weeks.csv", 'rb'))
@@ -32,6 +33,9 @@ def main():
             bba_stress = pd.concat([bba_stress, sub])
 
         bba_non_stress = pd.concat([bba_t, bba_stress]).drop_duplicates(keep=False)
+        bba_non_stress['month'] = bba_non_stress["Start-Date"].apply(lambda x: x.month)
+        bba_non_stress = bba_non_stress.loc[(bba_non_stress["month"] <= 5) | (bba_non_stress["month"] >= 9)]
+        del bba_non_stress["month"]
 
         db_t = db.copy()
         del db_t['End-Date']
@@ -57,14 +61,23 @@ def main():
         db_stress = pd.read_csv(open("db_stress.csv", 'rb'))
         db_non_stress = pd.read_csv(open("db_non_stress.csv", 'rb'))
 
-    test_statistic1, p_value1 = stats.ttest_ind(bba_stress["Freq"], bba_non_stress["Freq"])
-    test_statistic2, p_value2 = stats.ttest_ind(db_stress["Avg-Sentiment"], db_non_stress["Avg-Sentiment"])
-    print("BBA p value ", p_value1)
-    print("DB p value ", p_value2)
-    print(bba_stress["Freq"].mean())
-    print(bba_non_stress["Freq"].mean())
-    print(db_stress["Avg-Sentiment"].mean())
-    print(db_non_stress["Avg-Sentiment"].mean())
+    # test_statistic1, p_value1 = stats.ttest_ind(bba_stress["Freq"], bba_non_stress["Freq"])
+    # test_statistic2, p_value2 = stats.ttest_ind(db_stress["Avg-Sentiment"], db_non_stress["Avg-Sentiment"])
+    # print("BBA p value ", p_value1)
+    # print("DB p value ", p_value2)
+    # print(bba_stress["Freq"].mean())
+    # print(bba_non_stress["Freq"].mean())
+    # print(db_stress["Avg-Sentiment"].mean())
+    # print(db_non_stress["Avg-Sentiment"].mean())
+    stat1, p1 = stats.mannwhitneyu(bba_stress["Freq"], bba_non_stress["Freq"], alternative="two-sided")
+    stat2, p2 = stats.mannwhitneyu(db_stress["Avg-Sentiment"], db_non_stress["Avg-Sentiment"], alternative="two-sided")
+    print(stat1, p1)
+    print(stat2, p2)
+
+    plt.hist(bba_stress["Freq"], bins=10)
+    plt.show()
+    plt.hist(bba_non_stress["Freq"], bins=10)
+    plt.show()
 
     ########### LINEAR REGRESSION
     bba = bba.loc[(bba["Start-Date"] >= "2018-11-18") & (bba["Start-Date"] <= "2020-03-15")]
