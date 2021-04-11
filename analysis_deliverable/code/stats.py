@@ -5,6 +5,9 @@ from sklearn.linear_model import LinearRegression
 import datetime
 from datetime import date
 from dateutil.parser import parse
+from scipy import stats
+
+have_data = True
 
 stress_periods = [(date(2018, 9, 9), date(2018, 9, 20)), (date(2018, 12, 9), date(2018, 12, 21)),\
                     (date(2019, 1, 20), date(2019, 2, 5)), (date(2019, 4, 26), date(2019, 5, 12)),\
@@ -14,60 +17,72 @@ stress_periods = [(date(2018, 9, 9), date(2018, 9, 20)), (date(2018, 12, 9), dat
                     (date(2021, 1, 17), date(2021, 2, 2))]
 
 def main():
-    with open("bba_all_weeks.csv", 'rb') as f1:
-        bba = pd.read_csv(f1)
-
-    with open("db_all_weeks.csv", 'rb') as f2:
-        db = pd.read_csv(f2)
+    bba = pd.read_csv(open("bba_all_weeks.csv", 'rb'))
+    db = pd.read_csv(open("db_all_weeks.csv", 'rb'))
 
     ########### T-TESTING
-    bba_t = bba.copy()
-    bba_stress = pd.DataFrame(columns = ["Start-Date", "Freq"])
-    bba_t["Start-Date"] = bba_t["Start-Date"].apply(lambda x: parse(x).date())
+    if not have_data:
+        bba_t = bba.copy()
+        bba_stress = pd.DataFrame(columns = ["Start-Date", "Freq"])
+        bba_t["Start-Date"] = bba_t["Start-Date"].apply(lambda x: parse(x).date())
 
-    for sp in stress_periods:
-        mask = (bba_t["Start-Date"] >= sp[0]) & ((bba_t["Start-Date"] <= sp[1]))
-        sub = bba_t.loc[mask]
-        bba_stress = pd.concat([bba_stress, sub])
+        for sp in stress_periods:
+            mask = (bba_t["Start-Date"] >= sp[0]) & ((bba_t["Start-Date"] <= sp[1]))
+            sub = bba_t.loc[mask]
+            bba_stress = pd.concat([bba_stress, sub])
 
-    bba_non_stress = pd.concat([bba_t, bba_stress]).drop_duplicates(keep=False)
+        bba_non_stress = pd.concat([bba_t, bba_stress]).drop_duplicates(keep=False)
 
-    db_t = db.copy()
-    del db_t['End-Date']
+        db_t = db.copy()
+        del db_t['End-Date']
 
-    db_stress = pd.DataFrame(columns = ["Start-Date", "Avg-Sentiment"])
-    db_t["Start-Date"] = db_t["Start-Date"].apply(lambda x: parse(x).date())
+        db_stress = pd.DataFrame(columns = ["Start-Date", "Avg-Sentiment"])
+        db_t["Start-Date"] = db_t["Start-Date"].apply(lambda x: parse(x).date())
 
-    for sp in stress_periods:
-        mask = (db_t["Start-Date"] >= sp[0]) & ((db_t["Start-Date"] <= sp[1]))
-        sub = db_t.loc[mask]
-        db_stress = pd.concat([db_stress, sub])
+        for sp in stress_periods:
+            mask = (db_t["Start-Date"] >= sp[0]) & ((db_t["Start-Date"] <= sp[1]))
+            sub = db_t.loc[mask]
+            db_stress = pd.concat([db_stress, sub])
 
-    db_non_stress = pd.concat([db_t, db_stress]).drop_duplicates(keep=False)
+        db_non_stress = pd.concat([db_t, db_stress]).drop_duplicates(keep=False)
 
-    bba_stress.to_csv("bba_stress.csv", index=False)
-    bba_non_stress.to_csv("bba_non_stress.csv", index=False)
-    db_stress.to_csv("db_stress.csv", index=False)
-    db_non_stress.to_csv("db_non_stress.csv", index=False)
+        bba_stress.to_csv("bba_stress.csv", index=False)
+        bba_non_stress.to_csv("bba_non_stress.csv", index=False)
+        db_stress.to_csv("db_stress.csv", index=False)
+        db_non_stress.to_csv("db_non_stress.csv", index=False)
 
+    else:
+        bba_stress = pd.read_csv(open("bba_stress.csv", 'rb'))
+        bba_non_stress = pd.read_csv(open("bba_non_stress.csv", 'rb'))
+        db_stress = pd.read_csv(open("db_stress.csv", 'rb'))
+        db_non_stress = pd.read_csv(open("db_non_stress.csv", 'rb'))
+
+    test_statistic1, p_value1 = stats.ttest_ind(bba_stress["Freq"], bba_non_stress["Freq"])
+    test_statistic2, p_value2 = stats.ttest_ind(db_stress["Avg-Sentiment"], db_non_stress["Avg-Sentiment"])
+    print("BBA p value ", p_value1)
+    print("DB p value ", p_value2)
+    print(bba_stress["Freq"].mean())
+    print(bba_non_stress["Freq"].mean())
+    print(db_stress["Avg-Sentiment"].mean())
+    print(db_non_stress["Avg-Sentiment"].mean())
 
     ########### LINEAR REGRESSION
-    # bba = bba.loc[(bba["Start-Date"] >= "2018-11-18") & (bba["Start-Date"] <= "2020-03-15")]
-    #
-    # X = bba["Freq"].to_numpy().reshape(-1, 1)
-    # Y = db["Avg-Sentiment"].to_numpy()
-    #
-    # model = LinearRegression()
-    # model.fit(X, Y)
-    # r_sq = model.score(X, Y)
-    # print("R-Squared ", r_sq)
-    # print("Intercept ", model.intercept_)
-    # print("Slope ", model.coef_)
-    #
-    # plt.plot(X, Y, "o")
-    #
-    # plt.plot([0, 500], [model.intercept_, model.coef_ * 500 + model.intercept_])
-    # plt.show()
+    bba = bba.loc[(bba["Start-Date"] >= "2018-11-18") & (bba["Start-Date"] <= "2020-03-15")]
+
+    X = bba["Freq"].to_numpy().reshape(-1, 1)
+    Y = db["Avg-Sentiment"].to_numpy()
+
+    model = LinearRegression()
+    model.fit(X, Y)
+    r_sq = model.score(X, Y)
+    print("R-Squared ", r_sq)
+    print("Intercept ", model.intercept_)
+    print("Slope ", model.coef_)
+
+    plt.plot(X, Y, "o")
+
+    plt.plot([0, 500], [model.intercept_, model.coef_ * 500 + model.intercept_])
+    plt.show()
 
 if __name__ == '__main__':
     main()
