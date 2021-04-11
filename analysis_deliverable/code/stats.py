@@ -70,6 +70,10 @@ def main():
     plt.show()
     plt.hist(bba_non_stress["Freq"], bins=10)
     plt.show()
+    plt.hist(db_stress["Avg-Sentiment"], bins=10)
+    plt.show()
+    plt.hist(db_non_stress["Avg-Sentiment"], bins=10)
+    plt.show()
 
     ########### LINEAR REGRESSION
     bba = bba.loc[(bba["Start-Date"] >= "2018-11-18") & (bba["Start-Date"] <= "2020-03-15")]
