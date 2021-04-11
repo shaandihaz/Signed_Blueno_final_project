@@ -1,0 +1,7 @@
+Mann-Whitney BBA: 1039.5, 0.6598036253232517 (U value, p value)
+Mann-Whitney DB: 517.0, 0.36602348240324734
+
+BBA Frequency - DB Sentiment Simple Linear Regression:
+R-Squared  0.030512723631810235
+Intercept  0.061247285600630634
+Slope  [-4.65260495e-05]
