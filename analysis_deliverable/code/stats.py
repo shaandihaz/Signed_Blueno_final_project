@@ -7,7 +7,7 @@ from datetime import date
 from dateutil.parser import parse
 from scipy import stats
 
-have_data = False
+have_data = True
 
 stress_periods = [(date(2018, 9, 9), date(2018, 9, 20)), (date(2018, 12, 9), date(2018, 12, 21)),\
                     (date(2019, 1, 20), date(2019, 2, 5)), (date(2019, 4, 26), date(2019, 5, 12)),\
@@ -61,14 +61,6 @@ def main():
         db_stress = pd.read_csv(open("db_stress.csv", 'rb'))
         db_non_stress = pd.read_csv(open("db_non_stress.csv", 'rb'))
 
-    # test_statistic1, p_value1 = stats.ttest_ind(bba_stress["Freq"], bba_non_stress["Freq"])
-    # test_statistic2, p_value2 = stats.ttest_ind(db_stress["Avg-Sentiment"], db_non_stress["Avg-Sentiment"])
-    # print("BBA p value ", p_value1)
-    # print("DB p value ", p_value2)
-    # print(bba_stress["Freq"].mean())
-    # print(bba_non_stress["Freq"].mean())
-    # print(db_stress["Avg-Sentiment"].mean())
-    # print(db_non_stress["Avg-Sentiment"].mean())
     stat1, p1 = stats.mannwhitneyu(bba_stress["Freq"], bba_non_stress["Freq"], alternative="two-sided")
     stat2, p2 = stats.mannwhitneyu(db_stress["Avg-Sentiment"], db_non_stress["Avg-Sentiment"], alternative="two-sided")
     print(stat1, p1)
