@@ -71,12 +71,16 @@ def main():
     plt.ylabel("Count")
     plt.show()
     plt.hist(bba_non_stress["Freq"], bins=10)
+    plt.xlabel("BBA Post Frequency")
+    plt.ylabel("Count")
     plt.show()
     plt.hist(db_stress["Avg-Sentiment"], bins=10)
     plt.xlabel("DB Post Sentiment")
     plt.ylabel("Count")
     plt.show()
     plt.hist(db_non_stress["Avg-Sentiment"], bins=10)
+    plt.xlabel("DB Post Frequency")
+    plt.ylabel("Count")
     plt.show()
 
     ########### LINEAR REGRESSION
