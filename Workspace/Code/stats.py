@@ -67,6 +67,7 @@ def main():
     print(stat2, p2)
 
     plt.hist(bba_stress["Freq"], bins=10)
+    plt.title("BBA Post Frequency vs. Count in Stressful Times")
     plt.xlabel("BBA Post Frequency")
     plt.ylabel("Count")
     plt.show()
@@ -75,6 +76,7 @@ def main():
     plt.ylabel("Count")
     plt.show()
     plt.hist(db_stress["Avg-Sentiment"], bins=10)
+    plt.title("DB Post Sentiment vs. Count in Stressful Times")
     plt.xlabel("DB Post Sentiment")
     plt.ylabel("Count")
     plt.show()
@@ -99,6 +101,9 @@ def main():
     plt.plot(X, Y, "o")
 
     plt.plot([0, 500], [model.intercept_, model.coef_ * 500 + model.intercept_])
+    plt.xlabel("BBA Post Frequency")
+    plt.ylabel("DB Post Sentiment")
+    plt.title("BBA Post Frequency vs. DB Post Sentiment")
     plt.show()
 
 if __name__ == '__main__':
