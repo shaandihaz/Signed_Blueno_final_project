@@ -1,0 +1,14 @@
+{
+  "name": "895d906319d6b5d6",
+  "main": "895d906319d6b5d6@198.js",
+  "version": "198.0.0",
+  "homepage": "https://observablehq.com/d/895d906319d6b5d6",
+  "author": {
+    "name": "Jed Fox",
+    "url": "https://observablehq.com/@j-f1"
+  },
+  "type": "module",
+  "peerDependencies": {
+    "@observablehq/runtime": "4"
+  }
+}

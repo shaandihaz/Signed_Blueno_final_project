@@ -1,0 +1,14 @@
+{
+  "name": "998e2d7d1337f364",
+  "main": "998e2d7d1337f364@368.js",
+  "version": "368.0.0",
+  "homepage": "https://observablehq.com/d/998e2d7d1337f364",
+  "author": {
+    "name": "Jed Fox",
+    "url": "https://observablehq.com/@j-f1"
+  },
+  "type": "module",
+  "peerDependencies": {
+    "@observablehq/runtime": "4"
+  }
+}
